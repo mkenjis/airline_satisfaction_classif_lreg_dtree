@@ -1,4 +1,4 @@
-# airline_satisfaction_classif_lreg_dtree
+# airline_satisfaction_classif_rlog_svm_nbayes_dtree
 airline satisfaction classif logistic reg and dtree using MLlib
 - Source : Kaggle Dataset
 - URL : https://www.kaggle.com/teejmahal20/airline-passenger-satisfaction
