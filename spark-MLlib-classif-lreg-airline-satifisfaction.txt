@@ -1,3 +1,4 @@
+---- Feature extraction & Data Munging --------------
 
 val rdd = sc.textFile("airline/airline_satisfaction_train.csv").map( x => x.split(",")).map( x => {
    val arr_size = x.size
@@ -6,6 +7,8 @@ val rdd = sc.textFile("airline/airline_satisfaction_train.csv").map( x => x.spli
 
 val categories = rdd.map( x => x(22)).distinct.zipWithIndex.collect.toMap       
 categories: scala.collection.immutable.Map[String,Long] = Map(neutral or dissatisfied -> 0, satisfied -> 1)
+
+---- Conversion to 1-to-k binary encoding vectors 
 
 def oneHotEncColumns(rddx: org.apache.spark.rdd.RDD[Array[String]], idx: Int):org.apache.spark.rdd.RDD[Array[Double]] = {
   val categories = rddx.map(r => r(idx)).distinct.zipWithIndex.collect.toMap
@@ -74,6 +77,7 @@ val testSet = testSample.map{ case(r,d) => {
 
 
 ---- MLlib logistic regression --------------
+
 import org.apache.spark.mllib.classification.LogisticRegressionWithSGD
 val numIterations = 100
 val model = LogisticRegressionWithSGD.train(trainSet, numIterations)
@@ -128,14 +132,14 @@ model.getClass.getSimpleName
 metrics.areaUnderPR   //  0.538895872563347
 metrics.areaUnderROC  //  0.6153156613935578
 
-
 ----- Standardizing features ------------------------------
------ with MLlib logistic regression ----------------------
 
 import org.apache.spark.mllib.feature.StandardScaler
 val vectors = trainSet.map(lp => lp.features)
 val scaler = new StandardScaler(withMean = true, withStd = true).fit(vectors)
 val trainScaled = trainSet.map(lp => LabeledPoint(lp.label,scaler.transform(lp.features)))
+
+----- with MLlib logistic regression ----------------------
 
 import org.apache.spark.mllib.classification.LogisticRegressionWithSGD
 val numIterations = 100

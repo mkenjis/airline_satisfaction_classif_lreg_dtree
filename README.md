@@ -1,5 +1,7 @@
 # airline_satisfaction_classif_lreg_dtree
 airline satisfaction classif logistic reg and dtree using MLlib
+- Source : Kaggle Dataset
+- URL : https://www.kaggle.com/teejmahal20/airline-passenger-satisfaction
 
 # Purpose:
 - use airline satisfaction dataset to train linear regression and decision tree models.
